@@ -11,7 +11,7 @@ import UIKit
 class DetailViewController: UIViewController {
 
     //This label contains the details in the detail view
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var detailDescriptionLabel: UITextView!
 
 
     // Controls what should show up in the detail view
