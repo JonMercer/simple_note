@@ -10,9 +10,11 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    //This label contains the details in the detail view
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
 
+    // Controls what should show up in the detail view
     var detailItem: AnyObject? {
         didSet {
             // Update the view.

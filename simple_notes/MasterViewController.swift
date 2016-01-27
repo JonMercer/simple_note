@@ -13,7 +13,7 @@ class MasterViewController: UITableViewController {
     var detailViewController: DetailViewController? = nil
     var objects = [AnyObject]()
 
-
+// Launched when the view is loaded
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -27,6 +27,7 @@ class MasterViewController: UITableViewController {
         }
     }
 
+    // Runs right before the view appears in the screen
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
         super.viewWillAppear(animated)
@@ -37,6 +38,7 @@ class MasterViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    //runs when the "+" button is pressed
     func insertNewObject(sender: AnyObject) {
         objects.insert(NSDate(), atIndex: 0)
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -44,7 +46,7 @@ class MasterViewController: UITableViewController {
     }
 
     // MARK: - Segues
-
+// Seque between the master view and the table view when an item is tapped
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
@@ -80,6 +82,7 @@ class MasterViewController: UITableViewController {
         return true
     }
 
+    // When you're in the edit section of a note item (swiping left)
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             objects.removeAtIndex(indexPath.row)
