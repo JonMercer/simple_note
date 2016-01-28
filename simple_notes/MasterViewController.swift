@@ -46,6 +46,19 @@ class MasterViewController: UITableViewController {
         save() //we're saving when we come back from the details screen
         super.viewWillAppear(animated)
     }
+    
+    /* try to transition to detail view if there are not objects in the objects array. That is, open details view is app is empty */
+    //"did" is called after the view has appeared
+    override func viewDidAppear(animated: Bool) {
+        
+        //check if empty
+        if objects.count == 0 {
+            insertNewObject(self) //pretty much what happens when the + button is pressed
+        }
+        super.viewDidAppear(animated)
+    }
+    
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -54,9 +67,18 @@ class MasterViewController: UITableViewController {
 
     //runs when the "+" button is pressed
     func insertNewObject(sender: AnyObject) {
-        objects.insert(BLANK_NOTE, atIndex: 0)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        //Checks if the first note is empty, if so, then use it.
+        if(objects.count == 0 || objects[0] != BLANK_NOTE) {
+            objects.insert(BLANK_NOTE, atIndex: 0) //inserts at the top of the list
+            let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+        
+
+        
+        //force the segue to showDetail
+        self.performSegueWithIdentifier("showDetail", sender: self)
+        
     }
 
     // MARK: - Segues
