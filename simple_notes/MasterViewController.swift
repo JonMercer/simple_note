@@ -25,6 +25,8 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        
+        load()
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
@@ -37,6 +39,7 @@ class MasterViewController: UITableViewController {
     // Runs right before the view appears in the screen
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
+        save() //we're saving when we come back from the details screen
         super.viewWillAppear(animated)
     }
 
@@ -97,6 +100,24 @@ class MasterViewController: UITableViewController {
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
+    }
+    
+    func save() {
+        //saved the objects object with the key kNotes. (what about collision?)
+        NSUserDefaults.standardUserDefaults().setObject(objects, forKey: kNotes)
+        
+        //force the save. Will otherwise save when the OS feels like it.
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func load() {
+        // let (a constant) will only be used on successful call or cast
+        // retrieve data from persistent storage
+        // as? is a cast
+        if let loadedData = NSUserDefaults.standardUserDefaults().arrayForKey(kNotes) as? [String] {
+            objects = loadedData
+        }
+        
     }
 
 
