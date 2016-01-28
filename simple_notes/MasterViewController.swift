@@ -30,10 +30,12 @@ class MasterViewController: UITableViewController {
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
-        if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-        }
+        
+        //NOTE: this originally set the detailViewController, but we want to set it ourselved in the DetailViewController.swift file.
+//        if let split = self.splitViewController {
+//            let controllers = split.viewControllers
+//            detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+//        }
     }
 
     // Runs right before the view appears in the screen
@@ -58,13 +60,17 @@ class MasterViewController: UITableViewController {
     // MARK: - Segues
 // Seque between the master view and the table view when an item is tapped
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
+        if segue.identifier == "showDetail" { //showDetail is just an identifier attached to the detail view. I can rename it to foo if I want
+            if let indexPath = self.tableView.indexPathForSelectedRow {//what happens when the user taps a row
                 let object = objects[indexPath.row]
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                controller.navigationItem.leftItemsSupplementBackButton = true
+                currentIndex = indexPath.row //grabs the current index. Not sure what this will be for
+                
+                //NOTE: this below is uselss because we're saving the detailViewController as a constant
+//                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                
+                detailViewController?.detailItem = object // the ? unwraps it and if things go wrong, the app continues as normal. An ! will break the app on purpose.
+                detailViewController?.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+                detailViewController?.navigationItem.leftItemsSupplementBackButton = true
             }
         }
     }
