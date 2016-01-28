@@ -26,6 +26,8 @@ class MasterViewController: UITableViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         
+        masterView = self //because ViewController is calling a masterView constant. We had to create constants becasue we don't yet know how to handle object passing
+        
         load()
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
@@ -125,6 +127,8 @@ class MasterViewController: UITableViewController {
         }
         
     }
+    
+
 
 
 }

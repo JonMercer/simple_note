@@ -60,6 +60,30 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //want to override default behavious when the detail window disappears
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if objects.count == 0 { //test if empty
+            return
+        }
+        
+        objects[currentIndex] = detailDescriptionLabel.text //whatever text we typed up
+        
+        //so that user knows that you can type something in there if they exit and come back
+        if(detailDescriptionLabel.text == "") {
+            objects[currentIndex] = BLANK_NOTE
+        }
+        
+        
+        saveAndUpdate()
+    }
+    
+    func saveAndUpdate() {
+        masterView?.save()
+        masterView?.tableView.reloadData()
+    }
 
 
 }
